@@ -1,11 +1,12 @@
-//: Mini reto 2
-
 import UIKit
 
-enum Velocidades : Int {
-    case Apagado = 0, VelocidadBaja = 20, VelocidadMedia = 50, VelocidadAlta = 120
+enum Velocidades : Int{
+    case Apagado = 0
+    case VelocidadBaja = 20
+    case VelocidadMedia = 50
+    case VelocidadAlta = 120
     
-    init(velocidadInicial : Velocidades){
+    init (velocidadInicial : Velocidades){
         self = velocidadInicial
     }
 }
@@ -14,45 +15,33 @@ class Auto {
     var velocidad : Velocidades
     
     init(){
-        self.velocidad = Velocidades.Apagado
+        velocidad = Velocidades(velocidadInicial : Velocidades.Apagado)
+    }
+    func cambioDeVelocidad( ) -> ( actual : Int, velocidadEnCadena: String){
+        
+        switch velocidad{
+        case (.Apagado):
+            velocidad = .VelocidadBaja
+        case (.VelocidadBaja):
+            velocidad = .VelocidadMedia
+        case(.VelocidadMedia):
+            velocidad = .VelocidadAlta
+        case(.VelocidadAlta):
+            velocidad = .VelocidadMedia
+        }
+        return (velocidad.rawValue,String("\(velocidad)"))
     }
     
-    func cambioDeVelocidad() -> (actual : Int, velocidadEnCadena : String) {
-        var cadena : String
-        var tupla : (Int, String)
-        
-        switch self.velocidad {
-        case Velocidades.Apagado:
-            cadena = "Apagado"
-            tupla = (self.velocidad.rawValue, cadena)
-            self.velocidad = Velocidades.VelocidadBaja
-            
-        case Velocidades.VelocidadBaja:
-            cadena = "Velocidad baja"
-            tupla = (self.velocidad.rawValue, cadena)
-            self.velocidad = Velocidades.VelocidadMedia
-            
-        case Velocidades.VelocidadMedia:
-            cadena = "Velocidad media"
-            tupla = (self.velocidad.rawValue, cadena)
-            self.velocidad = Velocidades.VelocidadAlta
-            
-        case Velocidades.VelocidadAlta:
-            cadena = "Velocidad alta"
-            tupla = (self.velocidad.rawValue, cadena)
-            self.velocidad = Velocidades.VelocidadMedia
-            
-        }
-        
-        return tupla
-    }
 }
 
-var auto = Auto()
+var auto : Auto
+auto = Auto.init()
+print("\(auto.velocidad.rawValue), " + "\(auto.velocidad)")
 
-for i in 0..<20 {
-    var tupla = auto.cambioDeVelocidad()
-    
-    print("\(tupla.0), \(tupla.1)")
-    
+var velocidadActual:Int
+var velocidadEnCadena:String
+
+for idx in 1...20{
+    (velocidadActual,velocidadEnCadena) = auto.cambioDeVelocidad()
+    print("\(velocidadActual), " + velocidadEnCadena)
 }
